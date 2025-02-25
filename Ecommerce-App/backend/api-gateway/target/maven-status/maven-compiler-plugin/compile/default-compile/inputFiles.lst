@@ -1,0 +1,3 @@
+/home/anand/Documents/Ecommerce-App/backend/api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java
+/home/anand/Documents/Ecommerce-App/backend/api-gateway/src/main/java/com/example/gateway/config/GatewayConfig.java
+/home/anand/Documents/Ecommerce-App/backend/api-gateway/src/main/java/com/example/gateway/filters/AuthenticationFilter.java

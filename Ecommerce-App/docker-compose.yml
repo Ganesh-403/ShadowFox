@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecommerce_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - ecommerce-network
+
+  config-server:
+    build: ./backend/config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+    networks:
+      - ecommerce-network
+    depends_on:
+      - mysql
+
+  discovery-server:
+    build: ./backend/discovery-server
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - ecommerce-network
+    depends_on:
+      - config-server
+
+  api-gateway:
+    build: ./backend/api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - ecommerce-network
+    depends_on:
+      - discovery-server
+
+  product-service:
+    build: ./backend/product-service
+    container_name: product-service
+    ports:
+      - "8081:8081"
+    networks:
+      - ecommerce-network
+    depends_on:
+      - discovery-server
+      - api-gateway
+      - mysql
+
+  order-service:
+    build: ./backend/order-service
+    container_name: order-service
+    ports:
+      - "8082:8082"
+    networks:
+      - ecommerce-network
+    depends_on:
+      - discovery-server
+      - api-gateway
+      - mysql
+
+  user-service:
+    build: ./backend/user-service
+    container_name: user-service
+    ports:
+      - "8083:8083"
+    networks:
+      - ecommerce-network
+    depends_on:
+      - discovery-server
+      - api-gateway
+ 

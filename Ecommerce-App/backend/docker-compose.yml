@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  discovery-server:
+    build: ./discovery-server
+    ports:
+      - "8761:8761"
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - discovery-server
+
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - discovery-server
+      - config-server
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery-server
+      - config-server

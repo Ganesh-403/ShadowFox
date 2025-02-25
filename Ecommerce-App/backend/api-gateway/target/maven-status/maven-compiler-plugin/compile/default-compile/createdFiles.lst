@@ -1,0 +1,3 @@
+com/example/gateway/filters/AuthenticationFilter.class
+com/example/gateway/config/GatewayConfig.class
+com/example/gateway/ApiGatewayApplication.class
